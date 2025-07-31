@@ -1,0 +1,55 @@
+create database productos_db;
+use productos_db;
+Create table Productos(
+id int auto_increment,
+nombre varchar(100)not null,
+descripcion text null,
+precio decimal(10,2) Not NUll,
+cantidad int not null,
+fecha_creacion timestamp not null default CURRENT_TIMESTAMP,
+primary key(id)
+) Engine = InnoDB;
+
+create table Categorias(
+id int not null auto_increment,
+nombre varchar(50) not null,
+primary key(id),
+descripcion text null
+) Engine = InnoDB;
+create table if not exists producto_categoria(
+producto_id int not null,
+categoria_id int not null,
+primary key (producto_id,categoria_id),
+index fk_productos_categoria_categorias_idx(categoria_id),
+constraint fk_producto_categoria_productos
+foreign key (producto_id)
+references productos(id)
+on delete cascade	 
+on update cascade,
+constraint fk_producto_categoria_categorias
+foreign key (categoria_id)
+references categorias(id)
+on delete cascade	 
+on update cascade
+)Engine = InnoDB;
+
+insert into productos_db. productos(nombre,descripcion,precio,cantidad) values
+('laptop','laptos de 8GB','1000000','50'),
+('movil','apple','700000','150'),
+('TV','TV Smart','500000','300');
+
+insert into productos_db.categorias(nombre,descripcion)values
+('elctronicos','dispositivos'),
+('tecnologia','articulos tecnologicos');
+insert into productos_db.producto_categoria(producto_id,categoria_id)values
+(1,1),
+(1,2);
+insert into productos_db.producto_categoria(producto_id,categoria_id)values
+(2,1),
+(2,2);
+insert into productos_db.producto_categoria(producto_id,categoria_id)values
+(3,3);
+
+select * from productos;
+select * from categorias;
+select * from producto_categoria;
